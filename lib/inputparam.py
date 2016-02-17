@@ -10,7 +10,7 @@ import os, sys, getopt
 from lib.obj import Obj
 
 '''参数类型'''
-ParamType = Obj(FILE = 'file',DIGIT = 'digit',STRING = 'string')
+ParamType = Obj(IFILE = 'infile',OFILE = 'outfile',DIGIT = 'digit',STRING = 'string')
 
 class InputParam(object):
     '''获取输入参数'''
@@ -79,9 +79,12 @@ class InputParam(object):
                 
     def __valid(self,op,value,paramtype):
         '''输入参数验证'''
-        if paramtype==ParamType.FILE:
+        if paramtype==ParamType.IFILE:
             if not os.path.exists(value):
                 self.__setMsg("%s %s 文件不存在 \n"%(op,value))
+        if paramtype==ParamType.OFILE:
+            if os.path.exists(value):
+                self.__setMsg("%s %s 文件已存在 \n"%(op,value))
         if paramtype==ParamType.DIGIT:
             if not value.isdigit():
                 self.__setMsg("%s %s 参数需为数字 \n"%(op,value))
@@ -94,8 +97,9 @@ class InputParam(object):
     
 if __name__ == '__main__':
     '''例子'''
-    a = InputParam({"file":ParamType.FILE,'n':ParamType.DIGIT})
-    if a.isValid:
-        print a.params
+    inputParam = InputParam({"i":ParamType.IFILE,'o':ParamType.OFILE,
+                             'digit':ParamType.DIGIT,'s':ParamType.STRING})
+    if inputParam.isValid:
+        print inputParam.params
     else:
-        print a.msg
+        print inputParam.msg
