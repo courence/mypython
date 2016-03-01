@@ -10,4 +10,4 @@ Created on Feb 17, 2016
 
 
 if __name__ == '__main__':
-    pass
+    print round(1.245,2)
